@@ -58,7 +58,7 @@
   font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
 }
 .css-4pax7l-MuiPickersLayout-root .MuiPickersLayout-toolbar {
-  background-color: #0080ff !important;
+  background-color: rgba(174, 96, 22, 0.815) !important;
   color: #fff;
 }
 
@@ -67,7 +67,7 @@
 }
 
 .css-qa7bje-MuiButtonBase-root-MuiPickersDay-root.Mui-selected {
-  background-color: #0080ff !important;
+  background-color: rgba(174, 96, 22, 0.815) !important;
   color: #fff;
 }
 
