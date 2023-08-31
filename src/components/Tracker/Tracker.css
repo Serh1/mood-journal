@@ -1,0 +1,76 @@
+#TrackerContainer {
+  box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+  border-radius: 3%;
+  width: 40rem;
+  background-color: #fff;
+  margin: 0 1rem;
+  padding: 2rem;
+}
+
+.MoodContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.MoodSelector {
+  display: flex;
+  flex-direction: column;
+  justify-content: initial;
+  align-items: center;
+  background-color: rgba(174, 96, 22, 0.815);
+  width: 300px;
+  margin: 0 1rem;
+  padding: 10px;
+  border-radius: 3%;
+  box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+}
+.title {
+  top: 0;
+  color: white;
+  font-size: 30px;
+  padding: 1rem;
+}
+
+.ButtonList {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 1rem;
+  margin-top: 1rem;
+}
+
+.SelectedData {
+  display: flex;
+}
+
+.MoodInSelectedDate {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+  background-color: white;
+  border-radius: 50%;
+  margin: 0 0.5rem;
+}
+
+.css-1jy569b-MuiFormLabel-root-MuiInputLabel-root {
+  display: none !important;
+}
+
+.css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input {
+  border: none !important;
+}
+.css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root {
+  border-radius: 1rem !important;
+  background-color: #fff;
+}
+.css-1d3z3hw-MuiOutlinedInput-notchedOutline {
+  display: none !important;
+}
+
+.css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input.Mui-disabled {
+  -webkit-text-fill-color: black !important;
+  width: 135px !important;
+}
