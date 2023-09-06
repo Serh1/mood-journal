@@ -8,7 +8,6 @@ const Button = ({ text, onSelectText }) => {
   const handleClick = () => {
     setIsClicked(true);
     onSelectText(text);
-    console.log("Sa");
   };
 
   return (

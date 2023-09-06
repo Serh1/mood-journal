@@ -9,52 +9,40 @@ import { DayCalendarSkeleton } from "@mui/x-date-pickers/DayCalendarSkeleton";
 import { parseISO } from "date-fns";
 import CheckIcon from "@mui/icons-material/Check";
 
-function getRandomNumber(min, max) {
-  return Math.round(Math.random() * (max - min) + min);
-}
-
-function fakeFetch(date, { signal }) {
-  return new Promise((resolve, reject) => {
-    const timeout = setTimeout(() => {
-      const daysInMonth = date.daysInMonth();
-      const daysToHighlight = [1, 2, 3, 4].map(() =>
-        getRandomNumber(1, daysInMonth)
-      );
-
-      resolve({ daysToHighlight });
-    }, 500);
-
-    signal.onabort = () => {
-      clearTimeout(timeout);
-      reject(new DOMException("aborted", "AbortError"));
-    };
-  });
-}
-
 const initialValue = dayjs();
 
 function ServerDay(props) {
   const { highlightedDays = [], day, outsideCurrentMonth, ...other } = props;
 
   const isSelected =
-    !props.outsideCurrentMonth &&
-    highlightedDays.indexOf(props.day.date()) >= 0;
+    !outsideCurrentMonth &&
+    highlightedDays.some((item) => item.day === day.date());
 
   return (
-    <Badge
-      key={props.day.toString()}
-      overlap="circular"
-      badgeContent={isSelected ? <CheckIcon /> : undefined}
-    >
-      <PickersDay
-        {...other}
-        outsideCurrentMonth={outsideCurrentMonth}
-        day={day}
-      />
-    </Badge>
+    <div>
+      <Badge
+        key={props.day.toString()}
+        overlap="circular"
+        badgeContent={
+          isSelected ? getBadgeContent(day, highlightedDays) : undefined
+        }
+      >
+        <PickersDay
+          {...other}
+          outsideCurrentMonth={outsideCurrentMonth}
+          day={day}
+        />
+      </Badge>
+    </div>
   );
 }
 
+function getBadgeContent(day, highlightedDays) {
+  const moodItem = highlightedDays.find(
+    (currentDay) => currentDay.day === day.date()
+  );
+  return moodItem ? moodItem.mood : undefined;
+}
 export default function Cal({ onDateSelected, daysToHighlight }) {
   const requestAbortController = React.useRef(null);
   const [isLoading, setIsLoading] = React.useState(false);
@@ -62,19 +50,10 @@ export default function Cal({ onDateSelected, daysToHighlight }) {
 
   const fetchHighlightedDays = (date) => {
     const controller = new AbortController();
-    fakeFetch(date, {
-      signal: controller.signal,
-    })
-      .then(() => {
-        setHighlightedDays(daysToHighlight);
-        setIsLoading(false);
-      })
-      .catch((error) => {
-        // ignore the error if it's caused by `controller.abort`
-        if (error.name !== "AbortError") {
-          throw error;
-        }
-      });
+
+    setHighlightedDays(daysToHighlight);
+    setIsLoading(false);
+
     requestAbortController.current = controller;
   };
 
