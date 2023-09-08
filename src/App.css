@@ -1,7 +1,6 @@
 #root {
   max-width: 1280px;
   margin: 0 auto;
-  padding: 2rem;
   text-align: center;
 }
 * {
@@ -59,6 +58,10 @@
 }
 .css-4pax7l-MuiPickersLayout-root .MuiPickersLayout-toolbar {
   background-color: rgba(174, 96, 22, 0.815) !important;
+  color: #fff;
+}
+.css-1jsy6pn-MuiButtonBase-root-MuiPickersDay-root.Mui-selected {
+  background-color: rgba(110, 71, 35, 0.815) !important;
   color: #fff;
 }
 
