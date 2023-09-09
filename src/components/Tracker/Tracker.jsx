@@ -7,28 +7,42 @@ import { useEffect } from "react";
 import { Dayjs } from "dayjs";
 import { fetchData } from "../../server/api";
 import emojisList from "../../server/emojis";
-import Dates from "../../server/dates";
+import { DayMood } from "../../class/DayMood";
+import { set } from "date-fns";
 
 const Tracker = () => {
   const [selectedDate, setSelectedDate] = useState(null);
-  const [emojiList, setEmojiList] = useState(emojisList());
+  const [dates, setDates] = useState();
+  const [highlightedDays, setHighlightedDays] = useState([]);
 
   const textRef = React.createRef();
 
   useEffect(() => {
     const day = findSelectedDay(selectedDate);
     textRef.current.value = day ? day.reason : "No reason";
-  }, [selectedDate]);
+  }, [textRef]);
 
-  const [highlightedDays, setHighlightedDays] = useState([
-    { day: 1, mood: "😊", reason: "I am happy" },
-    { day: 5, mood: "😡", reason: null },
-    { day: 3, mood: "😁", reason: null },
-    { day: 13, mood: "😴", reason: null },
-  ]);
+  const fetchAllDays = async () => {
+    try {
+      const result = await fetchData("days/all");
+
+      const dates = result.map((day) => {
+        const findEmoji = emojis.find((emoji) => emoji.id === day.emojiId);
+        const mood = findEmoji ? findEmoji.emoji : "😐";
+        return new DayMood(day.date[2], mood, day.reason);
+      });
+
+      setHighlightedDays(dates);
+    } catch (error) {
+      console.log("Failed to fetch data from API");
+    }
+  };
+
+  useEffect(() => {
+    fetchAllDays();
+  }, []);
 
   console.log(highlightedDays);
-
   const handleDateSelected = (date) => {
     setSelectedDate(date);
   };
@@ -43,11 +57,7 @@ const Tracker = () => {
     return result ? result : { mood: "__", reason: null };
   };
 
-  const handleInputReason = () => {};
-
   const handleSelectMood = (emoji) => {
-    const currentMood = document.getElementsByClassName("MoodInSelectedDate");
-    currentMood.innerHTML = "";
     if (selectedDate) {
       // Add the selected date to the list of highlighted days
       if (
@@ -58,13 +68,12 @@ const Tracker = () => {
       ) {
         setHighlightedDays((prevDays) => [
           ...prevDays,
-          {
-            day: parseInt(selectedDate.toISOString().slice(8, 10)),
-            mood: emoji,
-            reason: textRef.current.value,
-          },
+          new DayMood(
+            parseInt(selectedDate.toISOString().slice(8, 10)),
+            emoji,
+            textRef.current.value
+          ),
         ]);
-        console.log(highlightedDays);
       } else {
         // Update the mood of the selected date
         const updatedHighlightedDays = highlightedDays.map((item) => {
@@ -132,7 +141,6 @@ const Tracker = () => {
             InputLabelProps={{
               shrink: true, // Keep the label up when text is present
             }}
-            onChange={handleInputReason}
           />
         </div>
       </div>

@@ -47,6 +47,7 @@ export default function Cal({ onDateSelected, daysToHighlight }) {
   const requestAbortController = React.useRef(null);
   const [isLoading, setIsLoading] = React.useState(false);
   const [highlightedDays, setHighlightedDays] = React.useState(daysToHighlight);
+  const [currentMonth, setCurrentMonth] = React.useState(initialValue);
 
   const fetchHighlightedDays = (date) => {
     const controller = new AbortController();
@@ -72,6 +73,7 @@ export default function Cal({ onDateSelected, daysToHighlight }) {
 
     setIsLoading(true);
     setHighlightedDays([]);
+    setCurrentMonth(date);
     fetchHighlightedDays(date);
   };
 
@@ -80,6 +82,7 @@ export default function Cal({ onDateSelected, daysToHighlight }) {
       <DateCalendar
         defaultValue={initialValue}
         loading={isLoading}
+        disableFuture
         onChange={(newValue) => {
           var tzoffset = new Date().getTimezoneOffset() * 60000;
           onDateSelected(new Date(newValue - tzoffset));
@@ -92,6 +95,7 @@ export default function Cal({ onDateSelected, daysToHighlight }) {
         slotProps={{
           day: {
             highlightedDays,
+            currentMonth, // Pass currentMonth as a prop to ServerDay
           },
         }}
       />
