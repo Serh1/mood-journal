@@ -21,22 +21,22 @@ const emojisList = () => {
   emojis.forEach((emoji) => {
     switch (emoji.name) {
       case "happy":
-        emojisList.push("😊");
+        emojisList.push({ id: emoji.id, emoji: "😊" });
         break;
       case "sad":
-        emojisList.push("😢");
+        emojisList.push({ id: emoji.id, emoji: "😢" });
         break;
       case "angry":
-        emojisList.push("😡");
+        emojisList.push({ id: emoji.id, emoji: "😡" });
         break;
       case "sleepy":
-        emojisList.push("😴");
+        emojisList.push({ id: emoji.id, emoji: "😴" });
         break;
       case "superhappy":
-        emojisList.push("😁");
+        emojisList.push({ id: emoji.id, emoji: "😁" });
         break;
       default:
-        emojisList.push("😊");
+        emojisList.push({ id: emoji.id, emoji: "😐" });
         break;
     }
   });
